@@ -1,26 +1,127 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@theme {
+  /* Luti Bakery palette — warm, doughy, handmade */
+  --color-cream: #faf3e7;
+  --color-cream-soft: #fdf9f1;
+  --color-butter: #f2e2c4;
+  --color-butter-light: #f8eed9;
+  --color-caramel: #c89f73;
+  --color-caramel-deep: #a87e52;
+  --color-cocoa: #5c3a21;
+  --color-cocoa-deep: #442a16;
+  --color-burgundy: #571e2c;
+  --color-burgundy-deep: #401520;
+  --color-ink: #2a1e12;
+  --color-blush: #eecfc0;
+  --color-pistachio: #b8c49a;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --font-display: var(--font-fraunces);
+  --font-sans: var(--font-karla);
+  --font-hand: var(--font-caveat);
+  --font-logo: var(--font-giaza), var(--font-fraunces), serif;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  --shadow-soft: 0 8px 30px rgba(92, 58, 33, 0.08);
+  --shadow-lift: 0 16px 40px rgba(92, 58, 33, 0.14);
+
+  --animate-marquee: marquee 32s linear infinite;
+  --animate-float: float 7s ease-in-out infinite;
+  --animate-float-slow: float 10s ease-in-out infinite;
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0) rotate(var(--float-rotate, 0deg));
+    }
+    50% {
+      transform: translateY(-14px) rotate(var(--float-rotate, 0deg));
+    }
   }
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--color-burgundy);
+  color: var(--color-cream);
+}
+
+/* Subtle grain over everything — handmade paper feel */
+.grain::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Scalloped edge — piped icing. Use on a wrapper with the next section's bg color. */
+.scallop-bottom {
+  --scallop-size: 28px;
+  -webkit-mask-image: radial-gradient(
+      circle at 50% 100%,
+      transparent calc(var(--scallop-size) * 0.64),
+      black calc(var(--scallop-size) * 0.65)
+    );
+  -webkit-mask-size: var(--scallop-size) 100%;
+  -webkit-mask-repeat: repeat-x;
+  mask-image: radial-gradient(
+    circle at 50% 100%,
+    transparent calc(var(--scallop-size) * 0.64),
+    black calc(var(--scallop-size) * 0.65)
+  );
+  mask-size: var(--scallop-size) 100%;
+  mask-repeat: repeat-x;
+}
+
+.scallop-top {
+  --scallop-size: 28px;
+  -webkit-mask-image: radial-gradient(
+      circle at 50% 0%,
+      transparent calc(var(--scallop-size) * 0.64),
+      black calc(var(--scallop-size) * 0.65)
+    );
+  -webkit-mask-size: var(--scallop-size) 100%;
+  -webkit-mask-repeat: repeat-x;
+  mask-image: radial-gradient(
+    circle at 50% 0%,
+    transparent calc(var(--scallop-size) * 0.64),
+    black calc(var(--scallop-size) * 0.65)
+  );
+  mask-size: var(--scallop-size) 100%;
+  mask-repeat: repeat-x;
+}
+
+/* Dashed "recipe card" border */
+.recipe-border {
+  border: 2px dashed color-mix(in srgb, var(--color-caramel) 55%, transparent);
+}
+
+/* Hide scrollbar for filter pills row */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
